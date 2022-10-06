@@ -1,3 +1,4 @@
+import '../styles/globals.css';
 import { Suspense, useState } from 'react';
 import Loader from '../components/Loader';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
