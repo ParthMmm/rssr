@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 jest.mock('next-auth/react');
 
 describe('Navbar', () => {
-  test('expect username, image, and sign out button', async () => {
+  test('username, image, and sign out button to render', async () => {
     useSession.mockReturnValue({
       data: {
         user: {
@@ -34,7 +34,7 @@ describe('Navbar', () => {
     expect(screen.getByText('Sign out')).toBeInTheDocument();
     expect(screen.getByRole('img')).toBeInTheDocument();
   });
-  test('expect sign in button', async () => {
+  test('sign in button to render', async () => {
     useSession.mockReturnValue({
       data: {
         user: null,

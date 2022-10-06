@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 jest.mock('next-auth/react');
 
 describe('Story', () => {
-  test('expect image to be shown', async () => {
+  test('image to be rendered', async () => {
     useSession.mockReturnValue({
       data: {
         user: {
@@ -53,7 +53,7 @@ describe('Story', () => {
     await screen.getByRole('img');
     expect(screen.getByRole('img')).toBeInTheDocument();
   });
-  test('expect image to not be shown with null url', async () => {
+  test('image to not be shown with null url', async () => {
     useSession.mockReturnValue({
       data: {
         user: {
@@ -96,7 +96,7 @@ describe('Story', () => {
 });
 
 describe('Story', () => {
-  test('expect bookmark to be disabled', async () => {
+  test('bookmark button to be disabled', async () => {
     useSession.mockReturnValue({
       data: {
         user: null,
@@ -137,7 +137,7 @@ describe('Story', () => {
     expect(BookmarkButton).toBeDisabled();
   });
 
-  test('expect bookmark button to not be disabled', async () => {
+  test('bookmark button to be enabled', async () => {
     useSession.mockReturnValue({
       data: {
         user: {

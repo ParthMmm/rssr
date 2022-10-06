@@ -7,7 +7,7 @@ import StoryFeed from '../src/components/Story/StoryFeed';
 const queryClient = new QueryClient();
 
 describe('StoryFeed', () => {
-  test('expect loader on first render', async () => {
+  test('loader on first render', async () => {
     render(
       <QueryClientProvider client={queryClient}>
         <StoryFeed />
