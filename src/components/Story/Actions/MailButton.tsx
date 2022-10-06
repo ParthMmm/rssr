@@ -25,6 +25,7 @@ function MailButton({ title, path }: Props) {
         href={`mailto:yourmail@domain.com?subject=${title}&body=${encodeURIComponent(
           path
         )}`}
+        aria-label='mail'
       >
         <StyledMail>
           <path

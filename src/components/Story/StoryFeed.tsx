@@ -4,9 +4,12 @@ import { getFeed } from '../../lib/feed';
 import { Item } from '../../lib/types';
 import { device } from '../../styles/device';
 import Loader from '../Loader';
-import Story from './Story';
+// import Story from './Story';
 import Filter from '../Filter';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const Story = dynamic(() => import('./Story'), { ssr: false });
 
 const Container = styled.div`
   display: flex;
@@ -26,7 +29,7 @@ const Grid = styled.div`
 
   @media ${device.md} {
     grid-template-columns: repeat(2, 1fr);
-    width: 80%;
+    width: 100%;
   }
 `;
 
@@ -38,6 +41,7 @@ function StoryFeed({}) {
     () => getFeed(filter),
     {
       staleTime: 60 * 1000,
+      enabled: !!filter,
     }
   );
 

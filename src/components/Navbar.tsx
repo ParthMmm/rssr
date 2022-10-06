@@ -25,6 +25,7 @@ const InnerNav = styled.div`
 
 const Title = styled.div`
   font-weight: 700;
+  font-size: 1.5rem;
 `;
 
 const ProfileImage = styled.img`
@@ -51,7 +52,7 @@ function Navbar({}) {
   const { data: session } = useSession();
 
   const AuthButton = () => {
-    if (session) {
+    if (session?.user) {
       return (
         <ProfileContainer>
           {session?.user?.image && (

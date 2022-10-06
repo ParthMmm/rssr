@@ -4,9 +4,14 @@ import timezone from 'dayjs/plugin/timezone';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import utc from 'dayjs/plugin/utc';
 import Link from 'next/link';
-import Bookmark from './Actions/Bookmark';
 import styled from 'styled-components';
 import { device } from '../../styles/device';
+import dynamic from 'next/dynamic';
+import Image from 'next/future/image';
+
+const Bookmark = dynamic(() => import('./Actions/Bookmark'), {
+  ssr: false,
+});
 
 const Container = styled.div`
   display: flex;
@@ -25,9 +30,19 @@ const Container = styled.div`
   }
 `;
 
-const ImageWrapper = styled.div`
+export const ImageWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  position: relative;
+`;
+
+export const InnerImageWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
 const Title = styled.h1`
@@ -36,9 +51,14 @@ const Title = styled.h1`
   font-weight: 700;
 `;
 
-const Date = styled.div`
+export const Author = styled.div`
+  font-size: 1rem;
+  font-weight: 600;
+`;
+
+export const Date = styled.div`
   font-weight: 300;
-  color: gray;
+  color: black;
 `;
 
 export const TagContainer = styled.div`
@@ -47,6 +67,7 @@ export const TagContainer = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: flex-start;
+  /* bottom: 0; */
 `;
 
 export const Tag = styled.div`
@@ -61,6 +82,12 @@ export const StoryActions = styled.div`
   flex-direction: row;
   justify-content: start;
   gap: 0.5rem;
+  padding: 0.5rem 0;
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 type Props = {
@@ -76,28 +103,27 @@ function Story({ item, filter }: Props) {
   return (
     <>
       <Container>
-        {item.image && (
+        {item?.image && (
           <ImageWrapper>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={item?.image} alt='cover image' loading='lazy' />
+            <InnerImageWrapper>
+              <Image src={item?.image} alt='cover image' sizes='100vw' fill />
+            </InnerImageWrapper>
           </ImageWrapper>
         )}
         <div>
           <Title>
             <Link
               href={{
-                // pathname: `/story/${encodeURIComponent(item.title._text)}`,
                 pathname: `/story/[title]`,
-
-                query: { title: item.title._text, filter: filter },
+                query: { title: item?.title?._text, filter: filter },
               }}
             >
-              <a>{item.title._text}</a>
+              <a>{item?.title?._text}</a>
             </Link>
           </Title>
-          <div>{item.author._cdata}</div>
+          <Author>{item?.author?._cdata}</Author>
           <Date>
-            {dayjs(item.date._text).format('MMMM D, YYYY  hh:mm a z ')}
+            {dayjs(item?.date?._text).format('MMMM D, YYYY  hh:mm a z ')}
           </Date>
           <StoryActions>
             <Bookmark story={item} />
@@ -106,7 +132,7 @@ function Story({ item, filter }: Props) {
 
         <TagContainer>
           {item.tags.slice(0, 3).map((tag) => {
-            return <Tag key={tag._cdata}>#{tag._cdata}</Tag>;
+            return <Tag key={tag?._cdata}>#{tag?._cdata}</Tag>;
           })}
         </TagContainer>
       </Container>

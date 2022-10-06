@@ -12,7 +12,7 @@ function Loader({}) {
   return (
     <Container>
       <div>
-        <div>loading</div>
+        <div data-testid='loader'>loading</div>
       </div>
     </Container>
   );

@@ -10,10 +10,26 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import utc from 'dayjs/plugin/utc';
-import Bookmark from './Actions/Bookmark';
-import { StoryActions, Tag, TagContainer } from './Story';
-import MailButton from './Actions/MailButton';
-import TweetButton from './Actions/TweetButton';
+import {
+  Author,
+  Date,
+  ImageWrapper,
+  InnerImageWrapper,
+  StoryActions,
+  Tag,
+  TagContainer,
+} from './Story';
+import Image from 'next/future/image';
+
+import dynamic from 'next/dynamic';
+
+const Bookmark = dynamic(() => import('./Actions/Bookmark'), { ssr: false });
+const MailButton = dynamic(() => import('./Actions/MailButton'), {
+  ssr: false,
+});
+const TweetButton = dynamic(() => import('./Actions/TweetButton'), {
+  ssr: false,
+});
 
 const Container = styled.div`
   display: flex;
@@ -30,10 +46,13 @@ const Container = styled.div`
 
 const Title = styled.h1`
   font-size: 2rem;
+  line-height: 2rem;
+
   font-weight: 700;
 
   @media ${device.md} {
     font-size: 3rem;
+    line-height: 3rem;
   }
 `;
 
@@ -92,12 +111,14 @@ function StoryPage({}) {
     return (
       <Container>
         <Header>
-          <Title>{story.title._text}</Title>
+          <Title>
+            <a href={story?.link?._text}>{story.title._text}</a>
+          </Title>
           <div>
-            <div>{story.author._cdata}</div>
-            <div>
+            <Author>{story.author._cdata}</Author>
+            <Date>
               {dayjs(story.date._text).format('MMMM D, YYYY  hh:mm a z ')}
-            </div>
+            </Date>
           </div>
         </Header>
         <StoryActions>
@@ -107,9 +128,17 @@ function StoryPage({}) {
         </StoryActions>
 
         <div>
-          {story.image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={story?.image} alt='cover image' loading='lazy' />
+          {story?.image && (
+            <ImageWrapper>
+              <InnerImageWrapper>
+                <Image
+                  src={story?.image}
+                  alt='cover image'
+                  sizes='100vw'
+                  fill
+                />
+              </InnerImageWrapper>
+            </ImageWrapper>
           )}
         </div>
 

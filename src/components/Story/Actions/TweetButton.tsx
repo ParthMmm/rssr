@@ -19,10 +19,10 @@ function TweetButton({ path }: Props) {
   return (
     <>
       <a
-        // class='twitter-share-button'
         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
           path
         )}`}
+        aria-label='mail'
       >
         <StyledTwitter>
           <path

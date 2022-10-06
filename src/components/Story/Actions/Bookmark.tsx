@@ -49,7 +49,12 @@ function Bookmark({ story }: { story: Item }) {
   };
 
   return (
-    <BookmarkButton onClick={handleClick} disabled={!session?.user}>
+    <BookmarkButton
+      onClick={handleClick}
+      disabled={!session?.user}
+      aria-label='bookmark'
+      data-testid='bookmarkButton'
+    >
       <StyledBookmark active={active}>
         <path
           strokeLinecap='round'

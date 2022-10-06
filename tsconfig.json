@@ -22,7 +22,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "environment.d.ts"
+    "environment.d.ts",
+    "__tests__/*.test.js"
   ],
   "exclude": ["node_modules"]
 }
